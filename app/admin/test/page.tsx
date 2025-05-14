@@ -6,7 +6,7 @@ import CardScroll from "../components/CardScroll";
 
 import categories from '@/app/data/data.json';
 
-export default function Test({ children }: { children: React.ReactNode }) {
+export default function Test() {
     const dialogRef = useRef<HTMLDialogElement>(null);
     const [dialog, setDialog] = useState<string>('');
 
@@ -17,11 +17,11 @@ export default function Test({ children }: { children: React.ReactNode }) {
         }
     }
 
-    const changeDialog = (type: string) => {
-        if(dialogRef.current !== null) {
-            setDialog(type)
-        }
-    }
+    // const changeDialog = (type: string) => {
+    //     if(dialogRef.current !== null) {
+    //         setDialog(type)
+    //     }
+    // }
 
     const closeDialog = () => {
         if(dialogRef.current !== null) {
