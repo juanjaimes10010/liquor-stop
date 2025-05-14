@@ -1,0 +1,109 @@
+[
+    {
+        "order": 1,
+        "name": "liquor", 
+        "subcategories": [
+            {            
+                "name": "spirits",
+                "images": [
+                    {
+                        "id": 1,
+                        "date": "2023-10-01",
+                        "src": "/images/inventory/liquor/spirits/1.jpeg"
+                    },
+                    {
+                        "id": 2,
+                        "date": "2023-10-01",
+                        "src": "/images/inventory/liquor/spirits/2.jpeg"
+                    }
+                ]
+            },
+            {
+               "name": "wines & champange",
+               "images": [] 
+            }
+        ]
+    },
+    {
+        "order": 2,
+        "name": "beverages",
+        "subcategories": [
+            {
+                "name": "water, juices & soda",
+                "images": [
+                    {
+                        "id": 3,
+                        "date": "2023-10-01",
+                        "src": "/images/inventory/beverages/water,-juices-&-soda/1.JPG"
+                    },
+                    {
+                        "id": 4,
+                        "date": "2023-10-01",
+                        "src": "/images/inventory/beverages/water,-juices-&-soda/2.JPG"
+                    }       
+                ]
+
+            }
+        ]
+
+    },
+    {
+        "order": 3,
+        "name": "snacks",
+        "subcategories": [
+            {
+                "name": "ice cream",
+                "images": [
+                    {
+                        "id": 1,
+                        "date": "2023-10-01",
+                        "src": "/images/inventory/snacks/ice-cream/1.JPG"
+                    },     
+                    {
+                        "id": 2,
+                        "date": "2023-10-01",
+                        "src": "/images/inventory/snacks/ice-cream/2.JPG"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "order": 4,
+        "name": "miscellaneous",
+        "subcategories": [
+            {
+                "name": "apparel",
+                "images": [
+                    {
+                        "id": 5,
+                        "date": "2023-10-01",
+                        "src": "/images/inventory/miscellaneous/apparel/1.JPG"
+                    },
+                    {
+                        "id": 5,
+                        "date": "2023-10-01",
+                        "src": "/images/inventory/miscellaneous/apparel/2.JPG"
+                    },
+                    {
+                        "id": 5,
+                        "date": "2023-10-01",
+                        "src": "/images/inventory/miscellaneous/apparel/3.JPG"
+                    },
+                    {
+                        "id": 5,
+                        "date": "2023-10-01",
+                        "src": "/images/inventory/miscellaneous/apparel/4.JPG"
+                    },
+                    {
+                        "id": 5,
+                        "date": "2023-10-01",
+                        "src": "/images/inventory/miscellaneous/apparel/5.JPG"
+                    }
+                ]
+
+            }
+        ]
+    }
+]
+
