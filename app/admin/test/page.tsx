@@ -6,7 +6,7 @@ import CardScroll from "../components/CardScroll";
 
 import categories from '@/app/data/data.json';
 
-export default function Test() {
+export default function Page() {
     const dialogRef = useRef<HTMLDialogElement>(null);
     const [dialog, setDialog] = useState<string>('');
 
