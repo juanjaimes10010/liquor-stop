@@ -3,8 +3,14 @@ import Image from "next/image";
 import Header from '@/app/components/Header';
 import Footer from "@/app/components/Footer";
 
-import '@/app/styles/style.css';
 import CardScroll from "./admin/components/CardScroll";
+
+import '@/app/styles/globals.css';
+import '@/app/styles/style.css';
+
+import categories from '@/app/data/data.json'
+
+
 
 export default function Home() {
   return <>
