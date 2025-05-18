@@ -1,0 +1,83 @@
+:root {
+    --visible-cards: 3.5;
+}
+/* card scroll container */
+
+.card__scroll {
+    display: flex;
+    width: 100%;
+    gap: var(--gap);
+    overflow-x: scroll;
+    padding: 1rem calc(var(--gap) / 2);
+    scrollbar-width: none; /* Firefox */
+}
+
+.card__scroll > * {
+    flex: 0 0 calc((100% - (var(--gap) / 2 * var(--visible-cards))) / var(--visible-cards) - (var(--gap) / 4));
+}
+
+
+/* Small phones and up (≥ 375px) */
+@media (min-width: 375px) {
+    /* font size */
+    :root {
+        --h1: 3rem;
+        --h2: 2.8rem;
+        --h3: 2.6rem;
+        --p: 1.8rem;
+    }
+}
+
+/* Medium phones and up (≥ 480px) */
+@media (min-width: 480px) {
+    /* font size */
+    :root {
+        --h1: 3.2rem;
+        --h2: 3rem;
+        --h3: 2.8rem;
+        --p: 1.8rem;
+    }
+}
+
+/* Large phones / phablets and up (≥ 600px) */
+@media (min-width: 600px) {
+
+}
+
+/* Tablets and up (≥ 768px) */
+@media (min-width: 768px) {
+    :root {
+        --visible-cards: 4.5;
+    }
+}
+
+/* Small laptops and up (≥ 1024px) */
+@media (min-width: 1024px) {
+
+}
+
+/* Desktops and up (≥ 1280px) */
+@media (min-width: 1280px) {
+    :root {
+        --visible-cards: 5.5;
+    }
+}
+
+/* Large desktops and up (≥ 1440px) */
+@media (min-width: 1440px) {
+
+}
+
+/* 4K TVs and up (≥ 1920px) */
+@media (min-width: 1920px) {
+
+}
+
+/* Ultra-wide / 5K+ (≥ 2560px) */
+@media (min-width: 2560px) {
+
+}
+
+
+
+    

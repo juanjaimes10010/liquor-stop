@@ -1,0 +1,19 @@
+/* footer */
+
+footer {
+    text-align: center;
+    padding: 1rem 0;
+    border-top: 3px solid var(--gold);
+    background-color: var(--cement);
+}
+
+/* footer h2 {
+    color: var(--gold);
+    text-shadow: 0 0 5px var(--black);
+}
+
+footer p {
+    text-align: center;
+    padding: 1rem 0;
+    border-top: 3px solid var(--gold);
+} */

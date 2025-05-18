@@ -1,242 +1,124 @@
-import '@/app/styles/global.css';
-import '@/app/styles/admin.css';
+'use client';
+
+import { useRef, useState } from "react";
+
+import categories from '@/app/data/data.json';
+import Header from "@/app/admin/components/Header";
+import Footer from '@/app/admin/components/Footer';
+import Card from "@/app/admin/components/Card";
+import CardScroll from "@/app/admin/components/CardScroll";
+import Dialog from '@/app/admin/components/Dialog';
+
+import '@/app/styles/globals.css';
+import '@/app/styles/admin/style.css';
 
 export default function Page() {
+    const dialogRef = useRef<HTMLDialogElement>(null);
+    const [dialog, setDialog] = useState<string>('');
+
+    const fileHandler = async (e: any) => {
+        const file = e.target.files[0];
+        if (!file) return;
+    
+        // Create object URL for preview
+        const url = URL.createObjectURL(file);
+
+    
+        // Prepare data
+        const image = {
+            'image': file,
+            'date': new Date().toISOString()
+        }
+            // Send to API
+        const res = await fetch('/api/upload', {
+            method: 'POST',
+            body: JSON.stringify(image),
+        });
+  
+        const data = await res.json();
+        console.log('Uploaded:', data);
+
+    }
+
+    const openDialog = (type: string) => {
+        if(dialogRef.current !== null) {
+            setDialog(type)
+            dialogRef.current.showModal()
+        }
+    }
+
+    // const changeDialog = (type: string) => {
+    //     if(dialogRef.current !== null) {
+    //         setDialog(type)
+    //     }
+    // }
+
+    const closeDialog = () => {
+        if(dialogRef.current !== null) {
+            dialogRef.current.close()
+        }
+    }
+
+    const submit = (e:any) => {
+        e.preventDefault();
+    }
+
 
     return <>
-      <header>
-        <div className="container">
-            <div>
-                <h1 id="logo">Liquor Stop</h1>
-            </div>
-            <nav>
-                <ul>
-                    <li><a href="#inventory">Inventory</a></li>
-                    <li><a href="#about-1">View Site</a></li>
-                    <li><a href="#contact">Logout</a></li>
-                </ul>
-            </nav>
-        </div>
-    </header>
+
+    <Header/>
 
     <main>
-        <section id="inventory">
-            <div className="container">
-                <div>
-                    <h2>Add Category</h2>
-                    <button id="add-category">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-plus" viewBox="0 0 16 16">
-                            <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4"/>
+        <div className="container" id="liquorStop">
+        
+        <button onClick={() => openDialog('addCategoryDialog')} id="addCategoryBtn">Add Category </button>
+        {categories.map( (category, i) => {
+            return <section className="category" key={i}>
+                  <div className="category__header">
+                    <h1>{category.name}</h1>
+                    {/* this button should open dialog */}
+                    <button onClick={() => openDialog('categoryMenuDialog')}>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                            <path d="M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3m5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3m5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3"/>
                         </svg>
                     </button>
+                </div>      
+
+                <div className="category__content">
+                    {category.subcategories.map( (subctegory, i) => {
+                        return <article className="subcategory" key={i}>
+                            <div className="subcategory__header">
+                                <h2>{subctegory.name}</h2>
+                                {/* this button should open dialog */}
+                                <button onClick={() => openDialog('subcategoryMenuDialog')}>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                                        <path d="M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3m5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3m5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3"/>
+                                    </svg>
+                                </button>
+                            </div>
+                            <CardScroll>
+                                <div className="add__card">
+                                    <button className="add__card">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                                            <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4"/>
+                                        </svg>
+                                    </button>
+                                </div>
+                                {subctegory.images.map( (image, i) => {
+                                    return <Card data={image} key={i} openDialog={openDialog}  /> 
+                                })}
+                            </CardScroll>
+                        </article>
+                    })}
                 </div>
 
-                <section>
-                    <div className="category-header">
-                        <h2>Ready To Drink</h2>
-                        <button>
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-three-dots-vertical" viewBox="0 0 16 16">
-                                <path d="M9.5 13a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0m0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0m0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0"/>
-                              </svg>
-                        </button>   
-                    </div>
+            </section>
+        })}
 
-                    <article>
-
-                        <div className="subcategory-header">
-                            <h3>Single Server</h3>
-                                                    <button>
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-three-dots-vertical" viewBox="0 0 16 16">
-                                <path d="M9.5 13a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0m0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0m0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0"/>
-                              </svg>
-                        </button>  
-                        </div>
-                        <div className="scroll">
-                            <div className="card">
-                                <div id="add-subcategory" className="btn">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-plus" viewBox="0 0 16 16">
-                                        <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4"/>
-                                    </svg>
-                                    <input type="file" accept="image/*" capture="environment" />
-                                </div>
-                            </div>
-
-                            <div className="card">
-                                <div className="card-date">
-                                    <time>2023-10-01</time>
-                                </div>
-
-                                <div className="card-image">
-                                    <img src="../images/inventory/liquor/spirits/1.jpeg" alt="Hard Liquor" />
-                                </div>
-                                <div className="card-actions">  
-
-                                    <div className="btn">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-arrow-repeat" viewBox="0 0 16 16">
-                                            <path d="M11.534 7h3.932a.25.25 0 0 1 .192.41l-1.966 2.36a.25.25 0 0 1-.384 0l-1.966-2.36a.25.25 0 0 1 .192-.41m-11 2h3.932a.25.25 0 0 0 .192-.41L2.692 6.23a.25.25 0 0 0-.384 0L.342 8.59A.25.25 0 0 0 .534 9"/>
-                                            <path fill-rule="evenodd" d="M8 3c-1.552 0-2.94.707-3.857 1.818a.5.5 0 1 1-.771-.636A6.002 6.002 0 0 1 13.917 7H12.9A5 5 0 0 0 8 3M3.1 9a5.002 5.002 0 0 0 8.757 2.182.5.5 0 1 1 .771.636A6.002 6.002 0 0 1 2.083 9z"/>
-                                        </svg>
-                                        <input type="file" accept="image/*" capture="environment" />
-                                    </div>
-
-                                    <button>
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-trash-fill" viewBox="0 0 16 16">
-                                            <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5M8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5m3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0"/>
-                                        </svg>
-                                    </button>
-                                </div>
-                            </div>
-                            
-                            
-                            <div className="card">
-                                <div className="card-date">
-                                    <time>2023-10-01</time>
-                                </div>
-                                <div className="card-image">
-                                    <img src="../images/inventory/liquor/spirits/2.jpeg" alt="Hard Liquor" />
-                                </div>
-                                <div className="card-actions">                      
-                                    <button>
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-arrow-repeat" viewBox="0 0 16 16">
-                                            <path d="M11.534 7h3.932a.25.25 0 0 1 .192.41l-1.966 2.36a.25.25 0 0 1-.384 0l-1.966-2.36a.25.25 0 0 1 .192-.41m-11 2h3.932a.25.25 0 0 0 .192-.41L2.692 6.23a.25.25 0 0 0-.384 0L.342 8.59A.25.25 0 0 0 .534 9"/>
-                                            <path fill-rule="evenodd" d="M8 3c-1.552 0-2.94.707-3.857 1.818a.5.5 0 1 1-.771-.636A6.002 6.002 0 0 1 13.917 7H12.9A5 5 0 0 0 8 3M3.1 9a5.002 5.002 0 0 0 8.757 2.182.5.5 0 1 1 .771.636A6.002 6.002 0 0 1 2.083 9z"/>
-                                        </svg>
-                                    </button>
-                                    <button>
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-trash-fill" viewBox="0 0 16 16">
-                                            <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5M8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5m3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0"/>
-                                        </svg>
-                                    </button>
-                                </div>
-                            </div>
-
-
-                            <div className="card">
-                                <div className="card-date">
-                                    <time>2023-10-01</time>
-                                </div>
-                                <div className="card-image">
-                                    <img src="../images/inventory/liquor/spirits/1.jpeg" alt="Hard Liquor" />
-                                </div>
-                                <div className="card-actions">                      
-                                    <button>
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-arrow-repeat" viewBox="0 0 16 16">
-                                            <path d="M11.534 7h3.932a.25.25 0 0 1 .192.41l-1.966 2.36a.25.25 0 0 1-.384 0l-1.966-2.36a.25.25 0 0 1 .192-.41m-11 2h3.932a.25.25 0 0 0 .192-.41L2.692 6.23a.25.25 0 0 0-.384 0L.342 8.59A.25.25 0 0 0 .534 9"/>
-                                            <path fill-rule="evenodd" d="M8 3c-1.552 0-2.94.707-3.857 1.818a.5.5 0 1 1-.771-.636A6.002 6.002 0 0 1 13.917 7H12.9A5 5 0 0 0 8 3M3.1 9a5.002 5.002 0 0 0 8.757 2.182.5.5 0 1 1 .771.636A6.002 6.002 0 0 1 2.083 9z"/>
-                                        </svg>
-                                    </button>
-                                    <button>
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-trash-fill" viewBox="0 0 16 16">
-                                            <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5M8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5m3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0"/>
-                                        </svg>
-                                    </button>
-                                </div>
-                            </div>
-
-
-                            <div className="card">
-                                <div className="card-date">
-                                    <time>2023-10-01</time>
-                                </div>
-                                <div className="card-image">
-                                    <img src="../images/inventory/liquor/spirits/1.jpeg" alt="Hard Liquor" />
-                                </div>
-                                <div className="card-actions">                      
-                                    <button>
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-arrow-repeat" viewBox="0 0 16 16">
-                                            <path d="M11.534 7h3.932a.25.25 0 0 1 .192.41l-1.966 2.36a.25.25 0 0 1-.384 0l-1.966-2.36a.25.25 0 0 1 .192-.41m-11 2h3.932a.25.25 0 0 0 .192-.41L2.692 6.23a.25.25 0 0 0-.384 0L.342 8.59A.25.25 0 0 0 .534 9"/>
-                                            <path fill-rule="evenodd" d="M8 3c-1.552 0-2.94.707-3.857 1.818a.5.5 0 1 1-.771-.636A6.002 6.002 0 0 1 13.917 7H12.9A5 5 0 0 0 8 3M3.1 9a5.002 5.002 0 0 0 8.757 2.182.5.5 0 1 1 .771.636A6.002 6.002 0 0 1 2.083 9z"/>
-                                          </svg>
-                                    </button>
-                                    <button>
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-trash-fill" viewBox="0 0 16 16">
-                                            <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5M8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5m3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0"/>
-                                        </svg>
-                                    </button>
-                                </div>
-                            </div>
-
-
-                            <div className="card">
-                                <div className="card-date">
-                                    <time>2023-10-01</time>
-                                </div>
-                                <div className="card-image">
-                                    <img src="../images/inventory/liquor/spirits/1.jpeg" alt="Hard Liquor" />
-                                </div>
-                                <div className="card-actions">                      
-                                    <button>
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-arrow-repeat" viewBox="0 0 16 16">
-                                            <path d="M11.534 7h3.932a.25.25 0 0 1 .192.41l-1.966 2.36a.25.25 0 0 1-.384 0l-1.966-2.36a.25.25 0 0 1 .192-.41m-11 2h3.932a.25.25 0 0 0 .192-.41L2.692 6.23a.25.25 0 0 0-.384 0L.342 8.59A.25.25 0 0 0 .534 9"/>
-                                            <path fill-rule="evenodd" d="M8 3c-1.552 0-2.94.707-3.857 1.818a.5.5 0 1 1-.771-.636A6.002 6.002 0 0 1 13.917 7H12.9A5 5 0 0 0 8 3M3.1 9a5.002 5.002 0 0 0 8.757 2.182.5.5 0 1 1 .771.636A6.002 6.002 0 0 1 2.083 9z"/>
-                                        </svg>
-                                    </button>
-                                    <button>
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-trash-fill" viewBox="0 0 16 16">
-                                            <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5M8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5m3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0"/>
-                                        </svg>
-                                    </button>
-                                </div>
-                            </div>
-
-
-                            <div className="card">
-                                <div className="card-date">
-                                    <time>2023-10-01</time>
-                                </div>
-                                <div className="card-image">
-                                    <img src="../images/inventory/liquor/spirits/1.jpeg" alt="Hard Liquor" />
-                                </div>
-                                <div className="card-actions">                      
-                                    <button>
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-arrow-repeat" viewBox="0 0 16 16">
-                                            <path d="M11.534 7h3.932a.25.25 0 0 1 .192.41l-1.966 2.36a.25.25 0 0 1-.384 0l-1.966-2.36a.25.25 0 0 1 .192-.41m-11 2h3.932a.25.25 0 0 0 .192-.41L2.692 6.23a.25.25 0 0 0-.384 0L.342 8.59A.25.25 0 0 0 .534 9"/>
-                                            <path fill-rule="evenodd" d="M8 3c-1.552 0-2.94.707-3.857 1.818a.5.5 0 1 1-.771-.636A6.002 6.002 0 0 1 13.917 7H12.9A5 5 0 0 0 8 3M3.1 9a5.002 5.002 0 0 0 8.757 2.182.5.5 0 1 1 .771.636A6.002 6.002 0 0 1 2.083 9z"/>
-                                        </svg>
-                                    </button>
-                                    <button>
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-trash-fill" viewBox="0 0 16 16">
-                                            <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5M8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5m3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0"/>
-                                        </svg>
-                                    </button>
-                                </div>
-                            </div>
-
-
-                            <div className="card">
-                                <div className="card-date">
-                                    <time>2023-10-01</time>
-                                </div>
-                                <div className="card-image">
-                                    <img src="../images/inventory/liquor/spirits/1.jpeg" alt="Hard Liquor" />
-                                </div>
-                                <div className="card-actions">                      
-                                    <button>
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-arrow-repeat" viewBox="0 0 16 16">
-                                            <path d="M11.534 7h3.932a.25.25 0 0 1 .192.41l-1.966 2.36a.25.25 0 0 1-.384 0l-1.966-2.36a.25.25 0 0 1 .192-.41m-11 2h3.932a.25.25 0 0 0 .192-.41L2.692 6.23a.25.25 0 0 0-.384 0L.342 8.59A.25.25 0 0 0 .534 9"/>
-                                            <path fill-rule="evenodd" d="M8 3c-1.552 0-2.94.707-3.857 1.818a.5.5 0 1 1-.771-.636A6.002 6.002 0 0 1 13.917 7H12.9A5 5 0 0 0 8 3M3.1 9a5.002 5.002 0 0 0 8.757 2.182.5.5 0 1 1 .771.636A6.002 6.002 0 0 1 2.083 9z"/>
-                                        </svg>
-                                    </button>
-                                    <button>
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-trash-fill" viewBox="0 0 16 16">
-                                            <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5M8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5m3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0"/>
-                                        </svg>
-                                    </button>
-                                </div>
-                            </div>
-
-                        </div>
-
-                    </article>
-                </section>
-            </div>
-        </section>
+        <Dialog  ref={dialogRef} dialogState={dialog} setDialogState={setDialog} closeDialog={closeDialog}/>
+        </div>
     </main>
-    <footer id="contact">
-        <p className="text-center">
-            &copy; 2023 Liquor Stop. All rights reserved.
-        </p>
-    </footer>
 
+    <Footer />
 </>
 }

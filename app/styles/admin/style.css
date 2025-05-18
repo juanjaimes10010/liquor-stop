@@ -1,0 +1,155 @@
+/* main */
+
+main {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    padding: 2rem 0;
+    color: var(--color);
+    background-color: var(--bg);
+}
+
+main #addCategoryBtn {
+    /* width: 100%; */
+    margin: 2rem auto;
+    padding: 1rem;
+}
+
+#liquorStop {
+    display: flex;
+    flex-direction: column;
+    gap: 5rem;
+}
+
+/* category */
+.category {
+    width: 100%;
+    margin: auto;
+    padding: 2rem 1rem;
+    border: 1px solid var(--border-color);
+    border-radius: 5px;
+}
+
+.category__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-family: Arial, Helvetica, sans-serif;
+    padding:0  0 2rem 0;
+    gap: var(--gap);
+
+}
+
+.category__content {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.category__header button {
+    padding: .5rem;
+}
+
+
+/* subcategory */
+
+.subcategory {
+    border: 1px solid var(--border-color);
+    border-radius: 5px;
+    padding: 0;
+}
+
+.subcategory__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-family: Arial, Helvetica, sans-serif;
+    padding: 1rem;
+    gap: var(--gap);
+}
+
+.subcategory__header button {
+    padding: .5rem;
+}
+
+
+.form__input {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    padding: 1rem 0;
+}
+
+
+/* Small phones and up (≥ 375px) */
+@media (min-width: 375px) {
+    :root {
+        --visible-cards: 2.5;
+    }
+}
+
+/* Medium phones and up (≥ 480px) */
+@media (min-width: 480px) {
+    :root {
+        --visible-cards: 2.5;
+    }
+}
+
+/* Large phones / phablets and up (≥ 600px) */
+@media (min-width: 600px) {
+    :root {
+        --visible-cards: 3.5;
+    }
+}
+
+/* Tablets and up (≥ 768px) */
+@media (min-width: 768px) {
+    :root {
+        --visible-cards: 4.5;
+        --padding: 2rem;
+        --gap: 1.5rem;
+        --svg-size: 2rem;
+    }
+}
+
+/* Small laptops and up (≥ 1024px) */
+@media (min-width: 1024px) {
+    :root {
+        --visible-cards: 5.5;
+    }
+}
+
+/* Desktops and up (≥ 1280px) */
+@media (min-width: 1280px) {
+    :root {
+        --visible-cards: 6.5;
+        --padding: 2.5rem;
+    }
+}
+
+/* Large desktops and up (≥ 1440px) */
+@media (min-width: 1440px) {
+    :root {
+        --visible-cards: 7.5;
+    }
+}
+
+/* 4K TVs and up (≥ 1920px) */
+@media (min-width: 1920px) {
+    :root {
+        --visible-cards: 8.5;
+        --gap: 3rem;
+        --padding: 3rem;
+        --svg-size: 3rem;
+    }
+}
+
+/* Ultra-wide / 5K+ (≥ 2560px) */
+@media (min-width: 2560px) {
+    :root {
+        --visible-cards: 9.5;
+        --gap: 4rem;
+        --padding: 4rem;
+        --svg-size: 3.5rem;
+    }
+}

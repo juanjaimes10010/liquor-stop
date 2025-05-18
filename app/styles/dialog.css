@@ -1,0 +1,74 @@
+/* dialog */
+
+dialog {
+    position: fixed;
+    top: 15%;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 1rem;
+    width: 90%;
+    max-width: 50rem;
+    color: var(--color);
+    background-color: var(--bg);
+    border: 1px solid var(--border-color);
+    border-radius: 5px;
+}
+
+dialog::backdrop {
+    background-color: rgba(0, 0, 0, .6);
+}
+
+.dialog {
+    display: flex;
+    flex-direction: column;
+    gap: calc(var(--gap) / 2);
+}
+
+.dialog__close {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    height: 3rem;
+    width: 3rem;
+    color: white;
+    background-color: red;
+    border: none;
+    cursor: pointer;
+}
+
+.dialog__close > svg {
+    height: 2.7rem;
+    width: 2.7rem;
+}
+
+.dialog__content {
+    display: flex;
+    flex-direction: column;
+    padding: 2rem 0;
+}
+
+.dialog__menu {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.dialog__menu > button {
+    padding: 1rem;
+}
+
+.dialog__actions {
+    width: 100%;
+    display: flex;
+    gap: calc(var(--gap) / 2);
+}
+
+.dialog__action {
+    flex: 1;
+    padding: 1rem 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 5px;
+    cursor: pointer;
+}

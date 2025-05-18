@@ -1,0 +1,35 @@
+footer {
+    background-color: var(--bg-cement);
+}
+
+.contact {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    padding: 5rem 0;
+}
+
+.contact > * {
+    flex: 1;
+}
+
+.contact__image iframe {
+    width: 100%;
+}
+
+
+#copyright {
+    border-top: 1px solid var(--bg-gold);
+    padding: 1rem;
+    text-align: center;
+}
+
+
+@media (min-width: 768px) {
+
+    .contact {
+        flex-direction: row;
+        gap: 4rem;
+    }
+
+}

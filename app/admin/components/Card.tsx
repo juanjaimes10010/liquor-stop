@@ -1,13 +1,13 @@
 'use client';
+
 import Image from "next/image";
 
-import '@/app/styles/global.css';
+import '@/app/styles/globals.css';
 import '@/app/styles/card.css';
-import { useRef } from "react";
+
 
 export default function Card({data, openDialog}: {data: any, openDialog: (type:string) => void}) {
     const { id, src, date } = data;
-
 
     return (
         <>
