@@ -19,24 +19,12 @@
 
 /* Small phones and up (≥ 375px) */
 @media (min-width: 375px) {
-    /* font size */
-    :root {
-        --h1: 3rem;
-        --h2: 2.8rem;
-        --h3: 2.6rem;
-        --p: 1.8rem;
-    }
+
 }
 
 /* Medium phones and up (≥ 480px) */
 @media (min-width: 480px) {
-    /* font size */
-    :root {
-        --h1: 3.2rem;
-        --h2: 3rem;
-        --h3: 2.8rem;
-        --p: 1.8rem;
-    }
+
 }
 
 /* Large phones / phablets and up (≥ 600px) */

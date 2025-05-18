@@ -9,11 +9,13 @@ import '@/app/styles/globals.css';
 import '@/app/styles/style.css';
 
 import categories from '@/app/data/data.json'
+import { Inventory } from "@/app/types/inventory";
 
 
 
 export default function Home() {
-  return <>
+    const data: Inventory = categories;
+    return <>
     <Header />
     <main>
         <section  id="hero">
@@ -76,21 +78,22 @@ export default function Home() {
 
         <section id="inventory">
             <div className="container">
-                <section>
-                    <h2>Liquor</h2>
-                    <article>
-                        <h3>Spirits</h3>
-                        <CardScroll>
-                            <Image width="1200" height="1200" src="/images/video-games.jpg" alt="Hard Liquor" />
-                            <Image width="1200" height="1200" src="/images/gold-rush.jpeg" alt="" />
-                            <Image width="1200" height="1200" src="/images/video-games.jpg" alt="" />
-                            <Image width="1200" height="1200"  src="/images/gold-rush.jpeg" alt="" />
-                            <Image width="1200" height="1200" src="/images/video-games.jpg" alt="" />
-                            <Image width="1200" height="1200" src="/images/video-games.jpg" alt="Hard Liquor" />
-                        </CardScroll>
-                    </article>
-                </section>
 
+                {data.map( category => {
+                    return <section key={category.order}>
+                        <h2>{category.name}</h2>
+                        {category.subcategories.map( subcategory => {
+                            return <article>
+                                <h3>{subcategory.name}</h3>
+                                <CardScroll>
+                                    {subcategory.images.map( image => {
+                                        return <Image width={1000} height={1000} src={image.src} alt="images" />
+                                    })}
+                                </CardScroll>
+                            </article>
+                        })}
+                    </section>
+                })}
             </div>
         </section>
     </main>
